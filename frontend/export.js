@@ -14,17 +14,21 @@ function getServerID() {
     return document.getElementById("serverIP")?.value || "default_server";
 }
 
-// Función para exportar CSV
 function exportCSV() {
     const serverID = getServerID();
-    fetch(`${getServerURL()}/download/csv/${serverID}`)
+    const url = `${getServerURL()}/download/csv/${serverID}`;
+    console.log("Solicitando CSV desde:", url);  // Log para depuración
+
+    fetch(url)
         .then(response => {
+            console.log("Respuesta del servidor:", response);  // Log para depuración
             if (!response.ok) {
                 throw new Error(`Error en exportación CSV: ${response.statusText}`);
             }
             return response.blob();
         })
         .then(blob => {
+            console.log("Archivo CSV recibido:", blob);  // Log para depuración
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
@@ -32,14 +36,21 @@ function exportCSV() {
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
+            console.log("Archivo CSV descargado correctamente");  // Log para depuración
         })
-        .catch(error => console.error("Error en exportación CSV:", error));
+        .catch(error => {
+            console.error("Error en exportación CSV:", error);
+            alert("No se pudo descargar el archivo CSV. Verifica la consola para más detalles.");
+        });
 }
 
 // Función para exportar JSON
 function exportJSON() {
     const serverID = getServerID();
-    fetch(`${getServerURL()}/download/json/${serverID}`)
+    const url = `${getServerURL()}/download/json/${serverID}`;
+    console.log("Solicitando JSON desde:", url);  // Log para depuración
+
+    fetch(url)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Error en exportación JSON: ${response.statusText}`);
@@ -54,6 +65,24 @@ function exportJSON() {
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
+            console.log("Archivo JSON descargado correctamente");  // Log para depuración
         })
-        .catch(error => console.error("Error en exportación JSON:", error));
+        .catch(error => {
+            console.error("Error en exportación JSON:", error);
+            alert("No se pudo descargar el archivo JSON. Verifica la consola para más detalles.");
+        });
 }
+
+// Asignar eventos a los botones de exportación
+document.addEventListener("DOMContentLoaded", () => {
+    const exportCsvButton = document.getElementById("exportCsvButton");
+    const exportJsonButton = document.getElementById("exportJsonButton");
+
+    if (exportCsvButton) {
+        exportCsvButton.addEventListener("click", exportCSV);
+    }
+
+    if (exportJsonButton) {
+        exportJsonButton.addEventListener("click", exportJSON);
+    }
+});

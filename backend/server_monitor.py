@@ -157,6 +157,7 @@ def get_history(server_id):
 @app.route('/download/csv/<server_id>', methods=['GET'])
 def download_csv(server_id):
     csv_filename = f"{server_id}_metrics_export.csv"
+    print(f"Intentando crear el archivo: {csv_filename}")  # Log para depuración
 
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
@@ -165,12 +166,18 @@ def download_csv(server_id):
     conn.close()
 
     if not rows:
+        print("No hay datos para exportar")  # Log para depuración
         return jsonify({"error": "No hay datos para exportar"}), 404
 
-    with open(csv_filename, "w", newline="") as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerow(["ID", "Server ID", "Timestamp", "CPU Usage", "CPU Temp", "Memory Usage", "Disk Usage", "Network Sent", "Network Received", "GPU Usage"])
-        writer.writerows(rows)
+    try:
+        with open(csv_filename, "w", newline="") as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(["ID", "Server ID", "Timestamp", "CPU Usage", "CPU Temp", "Memory Usage", "Disk Usage", "Network Sent", "Network Received", "GPU Usage"])
+            writer.writerows(rows)
+        print(f"Archivo creado correctamente: {csv_filename}")  # Log para depuración
+    except Exception as e:
+        print(f"Error al crear el archivo CSV: {e}")  # Log para depuración
+        return jsonify({"error": f"Error al crear el archivo CSV: {e}"}), 500
 
     return send_file(csv_filename, as_attachment=True)
 
@@ -210,7 +217,8 @@ def download_json(server_id):
     return send_file(json_filename, as_attachment=True)
 
 # Iniciar el hilo de recolección de métricas en segundo plano
-threading.Thread(target=lambda: collect_metrics(SERVER_IP), daemon=True).start()
+threading.Thread(target=lambda: collect_metrics("default_server"), daemon=True).start()
+
 
 # Ejecutar limpieza cada 5 minutos
 def clean_old_records():

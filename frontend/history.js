@@ -83,6 +83,20 @@ function expandChart(chartId) {
     };
 }
 
+// Función para mostrar u ocultar un gráfico específico
+function toggleChart(chartId) {
+    const chartElement = document.getElementById(chartId);
+    if (chartElement) {
+        if (chartElement.style.display === "none") {
+            chartElement.style.display = "block";
+        } else {
+            chartElement.style.display = "none";
+        }
+    } else {
+        console.error("El elemento con ID '" + chartId + "' no fue encontrado.");
+    }
+}
+
 // Función para asignar eventos de clic a los gráficos
 function assignChartClickEvents() {
     ["cpuChart", "memoryChart", "diskChart", "networkChart", "gpuChart"].forEach(chartId => {
