@@ -63,7 +63,7 @@
 
 Si deseas revisar el código fuente o contribuir al desarrollo:
 
-📌 **Repositorio del Proyecto:** [[https://github.com/luisrocedev/darkorange](https://github.com/luisrocedev/monitoreo_servidor)]  
+📌 **Repositorio del Proyecto:** [[https://github.com/luisrocedev/monitoreo_servidor](https://github.com/luisrocedev/monitoreo_servidor)]  
 
 ---
 
