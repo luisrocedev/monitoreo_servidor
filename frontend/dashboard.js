@@ -80,10 +80,12 @@ function changeServerIP() {
 // Conectar con WebSockets (corregido para HTTPS)
 function connectWebSocket() {
     const serverIP = getServerIP();
-    console.log(`🌍 Conectando a: wss://${serverIP}:5050`);
+    console.log(`🌍 Conectando a: wss://${serverIP}:6060`);
 
-    // Cambiado de ws:// a wss:// para conexiones seguras
-    socket = io(`wss://${serverIP}:5050`, { transports: ["websocket", "polling"] });
+
+    socket = io(`ws://${serverIP}:6060`, { transports: ["websocket", "polling"] });
+
+
 
     socket.on("connect", () => console.log(`✅ Conectado a ${serverIP}`));
     socket.on("disconnect", () => {

@@ -1,6 +1,6 @@
 // Detectar si estamos en local o en internet
 function getServerURL() {
-    const localURL = "http://127.0.0.1:5050";
+    const localURL = "http://127.0.0.1:6060";
     const remoteURL = "http://82.165.43.137:5050"; // Cambia esto a tu dominio/IP del servidor público
 
     // Si la URL actual contiene "localhost" o "127.0.0.1", usa localURL, de lo contrario, usa remoteURL

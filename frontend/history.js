@@ -121,7 +121,7 @@ function getChartById(chartId) {
 // Inicializar conexión WebSocket
 function connectWebSocket() {
     if (!socket || socket.disconnected) {
-        socket = io(`http://${SERVER_HOST}:5050`);
+        socket = io(`http://${SERVER_HOST}:6060`);
 
         socket.on("connect", () => console.log(`✅ Conectado a ${SERVER_HOST}`));
         socket.on("disconnect", () => console.log("❌ Desconectado de WebSocket"));

@@ -233,4 +233,6 @@ def clean_old_records():
 threading.Thread(target=clean_old_records, daemon=True).start()
 
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=5050, debug=True)
+    socketio.run(app, host='0.0.0.0', port=6060, debug=True)
+
+
