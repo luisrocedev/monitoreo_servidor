@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historial de Métricas</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="history.css">
 
     <!-- Cargar Chart.js y Plugin Zoom -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -20,6 +20,11 @@
 </head>
 
 <body>
+    <!-- Botón para volver al inicio -->
+    <div class="back-to-home">
+        <a href="index.php" class="home-button">🏠 Volver al Inicio</a>
+    </div>
+
     <h1>Historial de Métricas</h1>
 
     <!-- Contenedor de alertas en tiempo real -->
@@ -118,5 +123,9 @@
     <div id="networkContainer"><canvas id="networkChart"></canvas></div>
     <div id="gpuContainer"><canvas id="gpuChart"></canvas></div>
 </body>
+
+<footer class="footer">
+    &copy; 2025 Dashboard Monitor | Creado con ❤️ por luisrocedev.
+</footer>
 
 </html>

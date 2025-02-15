@@ -1,70 +1,210 @@
+/* ======== RESET GLOBAL ======== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f0f4f8, #dbeafe);
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ======== HEADER ======== */
+.header {
+    background: linear-gradient(135deg, #ffffffcc, #e0eafc);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid darkorange;
+}
+
+.logo {
+    font-size: 1.8em;
+    font-weight: 600;
+    color: darkorange;
+    text-shadow: 1px 1px 3px rgba(255, 140, 0, 0.5);
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+}
+
+.nav a {
+    color: #333;
+    text-decoration: none;
+    margin-left: 30px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background: darkorange;
+    transition: width 0.3s ease;
+}
+
+.nav a:hover::after {
+    width: 100%;
+}
+
+.nav a:hover {
+    color: darkorange;
+}
+
+/* ======== CONTENIDO PRINCIPAL ======== */
+.main-content {
+    flex: 1;
+    padding: 30px 20px;
     text-align: center;
 }
 
+/* ======== SECCIÓN DE MONITOREO ======== */
+.monitoring-section h1 {
+    font-size: 2.5em;
+    color: darkorange;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 5px rgba(255, 140, 0, 0.3);
+}
+
+.monitoring-control {
+    margin-bottom: 30px;
+}
+
+.monitoring-control button {
+    background: linear-gradient(135deg, darkorange, #ff914d);
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.monitoring-control button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(255, 140, 0, 0.6);
+}
+
+.status-text {
+    margin-top: 10px;
+    font-size: 1.1em;
+    color: #444;
+}
+
+/* ======== MÉTRICAS ======== */
 .metrics-container {
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
     gap: 20px;
-    margin-bottom: 20px;
+    justify-content: center;
+    margin: 40px 0;
 }
 
 .metric-card {
-    background: #f4f4f4;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 140, 0, 0.3);
+    border-radius: 20px;
+    padding: 30px 20px;
+    width: 220px;
     text-align: center;
-    min-width: 120px;
+    box-shadow: 0 0 20px rgba(255, 140, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.metric-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 30px rgba(255, 140, 0, 0.4);
 }
 
 .metric-card h3 {
-    margin: 0;
+    color: darkorange;
+    margin-bottom: 15px;
+    font-size: 1.6em;
 }
 
 .metric-card p {
-    font-size: 1.5em;
+    font-size: 2em;
+    color: #222;
     font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(255, 140, 0, 0.2);
+    margin-top: 10px;
 }
 
-a {
+/* ======== GRÁFICO ======== */
+.chart-section {
+    margin-top: 40px;
+}
+
+.chart-section h2 {
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 2px solid darkorange;
     display: inline-block;
-    margin: 10px;
-    padding: 10px;
-    text-decoration: none;
-    color: white;
-    background: #007BFF;
-    border-radius: 5px;
+    padding-bottom: 5px;
 }
 
-a:hover {
-    background: #0056b3;
-}
-/* Contenedor de gráfico ampliado */
-#expandedChartContainer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-#expandedChartWrapper {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
+.chart-container {
     width: 80%;
-    height: 80%;
-}
-/* Asegurar que el gráfico ampliado esté oculto al inicio */
-#expandedChartContainer.hidden {
-    display: none;
+    margin: 20px auto;
+    border: 2px solid darkorange;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(255, 140, 0, 0.3);
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 20px;
+    transition: transform 0.5s ease;
 }
 
+.chart-container:hover {
+    transform: scale(1.02);
+}
 
+/* ======== FOOTER ======== */
+.footer {
+    text-align: center;
+    padding: 15px;
+    background: linear-gradient(135deg, #ffffffcc, #e0eafc);
+    border-top: 2px solid darkorange;
+    font-size: 0.9em;
+    color: #444;
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.2);
+    margin-top: auto;
+}
+
+/* ======== RESPONSIVE ======== */
+@media (max-width: 768px) {
+    .metrics-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .metric-card {
+        width: 80%;
+    }
+
+    .nav a {
+        margin-left: 15px;
+    }
+}

@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard de Monitoreo</title>
+
+    <!-- Estilos -->
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
     <!-- Cargar Chart.js y Plugin Zoom -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -19,58 +22,62 @@
 </head>
 
 <body>
-    <h1>Dashboard de Monitoreo</h1>
 
-    <!-- Selector de Servidor -->
-    <div class="server-selector">
-        <label for="serverIP">IP del Servidor:</label>
-        <input type="text" id="serverIP" placeholder="Ej: 192.168.1.10">
-        <button onclick="changeServerIP()">Conectar</button>
-        <p>Servidor actual: <span id="currentServerIP">Ninguno</span></p>
-    </div>
+    <!-- Encabezado -->
+    <header class="header">
+        <div class="logo">⚙️ luisrocedev / monitoreo</div>
+        <nav class="nav">
+            <a href="history.php">📜 Historial</a>
+            <a href="alerts.php">⚠️ Alertas</a>
+        </nav>
+    </header>
 
-    <!-- Botón para Pausar/Reanudar Monitoreo -->
-    <div class="monitoring-control">
-        <button id="toggleMonitoringBtn" onclick="toggleMonitoring()">⏸️ Parar Monitoreo</button>
-        <p>Estado: <span id="monitoringStatus">Activo</span></p>
-    </div>
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Sección de Monitoreo -->
+        <section class="monitoring-section">
+            <h1>📡 Monitoreo en Tiempo Real</h1>
+            <div class="monitoring-control">
+                <button id="toggleMonitoringBtn" onclick="toggleMonitoring()">⏯️ Parar Monitoreo</button>
+                <p class="status-text">Estado: <span id="monitoringStatus">Activo</span></p>
+            </div>
+        </section>
 
-    <!-- Tarjetas de métricas -->
-    <div class="metrics-container">
-        <div class="metric-card" id="cpuCard">
-            <h3>CPU</h3>
-            <p id="cpuUsage">- %</p>
-        </div>
-        <div class="metric-card" id="memoryCard">
-            <h3>RAM</h3>
-            <p id="memoryUsage">- %</p>
-        </div>
-        <div class="metric-card" id="diskCard">
-            <h3>Disco</h3>
-            <p id="diskUsage">- %</p>
-        </div>
-        <div class="metric-card" id="networkCard">
-            <h3>Red</h3>
-            <p id="networkUsage">- Bytes</p>
-        </div>
-        <div class="metric-card" id="gpuCard">
-            <h3>GPU</h3>
-            <p id="gpuUsage">- %</p>
-        </div>
-    </div>
+        <!-- Tarjetas de Métricas -->
+        <section class="metrics-container">
+            <?php
+            $metrics = [
+                ['id' => 'cpuCard', 'icon' => '💾', 'name' => 'CPU', 'value' => 'cpuUsage'],
+                ['id' => 'memoryCard', 'icon' => '🧠', 'name' => 'RAM', 'value' => 'memoryUsage'],
+                ['id' => 'diskCard', 'icon' => '💽', 'name' => 'Disco', 'value' => 'diskUsage'],
+                ['id' => 'networkCard', 'icon' => '🌐', 'name' => 'Red', 'value' => 'networkUsage'],
+                ['id' => 'gpuCard', 'icon' => '🎨', 'name' => 'GPU', 'value' => 'gpuUsage'],
+            ];
 
-    <!-- Gráfico Resumen -->
-    <h2>Gráfico Resumen en Tiempo Real</h2>
-    <div style="width: 80%; height: 400px; margin: auto;">
-        <canvas id="summaryChart"></canvas>
-    </div>
+            foreach ($metrics as $metric) {
+                echo "
+                <div class='metric-card' id='{$metric['id']}'>
+                    <h3>{$metric['icon']} {$metric['name']}</h3>
+                    <p id='{$metric['value']}'>- %</p>
+                </div>
+                ";
+            }
+            ?>
+        </section>
 
-    <!-- Accesos Directos -->
-    <h2>Accesos Directos</h2>
-    <div class="shortcuts">
-        <a href="history.php" class="button">🔍 Ver Historial de Métricas</a>
-        <a href="alerts.php" class="button">⚠️ Ver Historial de Alertas</a>
-    </div>
+        <!-- Gráfico de Métricas -->
+        <section class="chart-section">
+            <h2>📊 Gráfico de Métricas en Tiempo Real</h2>
+            <div class="chart-container">
+                <canvas id="summaryChart"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="footer">
+        &copy; 2025 Dashboard Monitor | Creado con ❤️ por luisrocedev.
+    </footer>
 
 </body>
 

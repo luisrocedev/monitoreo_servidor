@@ -13,7 +13,7 @@ import socket
 try:
     import GPUtil  # Para monitorear GPU
 except ImportError:
-    GPUtil = None  # Si no está instalada, ignoramos esta parte
+    GPUtil = None  # Si no está instalada, ignoramos esa parte
 
 app = Flask(__name__)
 CORS(app)
@@ -77,7 +77,7 @@ def collect_metrics(server_id="default_server"):
             cpu_temp = None
             if hasattr(psutil, "sensors_temperatures"):
                 temps = psutil.sensors_temperatures()
-                if "coretemp" in temps:
+                if "coretemp" in temps and len(temps["coretemp"]) > 0:
                     cpu_temp = temps["coretemp"][0].current
 
             memory_usage = psutil.virtual_memory().percent
@@ -216,9 +216,22 @@ def download_json(server_id):
 
     return send_file(json_filename, as_attachment=True)
 
+# RUTA: Estado de IP (para dashboard.js)
+@app.route('/api/monitor/ip/status', methods=['GET'])
+def obtener_estado_ip():
+    # Devuelve un array con la información que tu "dashboard.js" espera
+    import time
+    data = [
+        {
+            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "ip": SERVER_IP,
+            "estado": "OK"  # Aquí podrías colocar lógica real de verificación de estado
+        }
+    ]
+    return jsonify(data), 200
+
 # Iniciar el hilo de recolección de métricas en segundo plano
 threading.Thread(target=lambda: collect_metrics("default_server"), daemon=True).start()
-
 
 # Ejecutar limpieza cada 5 minutos
 def clean_old_records():
@@ -226,13 +239,19 @@ def clean_old_records():
         time.sleep(300)
         conn = sqlite3.connect(DB_FILE)
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM metrics WHERE id NOT IN (SELECT id FROM metrics ORDER BY timestamp DESC LIMIT 1000)")
+        cursor.execute("""
+            DELETE FROM metrics 
+            WHERE id NOT IN (
+                SELECT id FROM metrics ORDER BY timestamp DESC LIMIT 1000
+            )
+        """)
         conn.commit()
         conn.close()
 
 threading.Thread(target=clean_old_records, daemon=True).start()
 
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=6060, debug=True)
-
-
+    # Ajusta host y puerto según tu preferencia; 
+    # host='0.0.0.0' para permitir acceso externo, 
+    # o '127.0.0.1' para solo local.
+    socketio.run(app, host='127.0.0.1', port=6060, debug=True)
